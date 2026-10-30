@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ledger — Know where every rupee goes</title>
+  <meta name="description" content="Log an expense in seconds and see where your money goes: a station board for your total, metro lines for your categories, live MongoDB analytics." />
+  <meta name="theme-color" content="#121212" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preload" href="fonts/anek-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="hero.webp" as="image" type="image/webp" />
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="Ledger home">
+      <span class="mark" aria-hidden="true">₹</span>
+      <span class="brand-name">Ledger</span>
+    </a>
+    <nav class="top-nav" aria-label="Sections">
+      <a href="#screens">Screens</a>
+      <a href="#lines">Lines</a>
+      <a href="#mongo">Under the hood</a>
+    </nav>
+    <a class="btn-signal btn-sm" href="/app#/overview">Open the app</a>
+  </header>
+
+  <main>
+    <!-- Hero: copy on the left, the piggy-bank art on the right -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="plate"><span class="plate-no">1</span>Platform for your daily spending</p>
+        <h1>Know where every <em>rupee</em> goes.</h1>
+        <p class="lede">Log an expense in seconds. Ledger turns it into a station board for your total, metro lines for your categories and a timetable of every entry, all worked out live by MongoDB.</p>
+        <div class="cta">
+          <a class="btn-signal btn-lg" href="/app?add=1#/overview">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add your first expense
+          </a>
+          <a class="btn-line" href="/app#/overview">Open the dashboard <span aria-hidden="true">→</span></a>
+        </div>
+        <dl class="live" id="live" hidden>
+          <div><dt>Spent this month</dt><dd id="lMonth">—</dd></div>
+          <div><dt>Entries logged</dt><dd id="lCount">—</dd></div>
+          <div><dt>Busiest line</dt><dd id="lTop">—</dd></div>
+        </dl>
+        <p class="live-note" id="liveNote" hidden><span class="pulse" aria-hidden="true"></span>Live from your database</p>
+      </div>
+
+      <div class="hero-stage" id="stage">
+        <!-- The art tilts toward the pointer; the glass card's figure is live HTML laid over the blank card in the image -->
+        <figure class="hero-art" id="heroArt">
+          <div class="hero-float">
+            <img src="hero.webp" width="736" height="678" fetchpriority="high"
+              alt="A glossy pink piggy bank on a stone platform, with gold rupee coins floating around it" />
+            <div class="glass-card">
+              <p class="glass-cap">Spent this month</p>
+              <p class="glass-fig" id="heroFigure">₹—</p>
+            </div>
+          </div>
+        </figure>
+      </div>
+      <div class="platform-edge" aria-hidden="true"></div>
+    </section>
+
+    <!-- Screens: the real app, tilted in 3D -->
+    <section class="screens" id="screens" aria-labelledby="screensTitle">
+      <div class="section-head">
+        <h2 id="screensTitle">Three screens. Three questions.</h2>
+        <p>Each screen answers one thing and fits on a laptop without scrolling.</p>
+      </div>
+      <div class="screens-body">
+        <div class="screen-tabs" role="tablist" aria-label="App screens">
+          <button type="button" role="tab" aria-selected="true" aria-controls="shotPanel" data-shot="overview">
+            <span class="tab-no">1</span>
+            <span class="tab-text"><strong>Overview</strong>How much did I spend, and on what?</span>
+          </button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="shotPanel" data-shot="transactions">
+            <span class="tab-no">2</span>
+            <span class="tab-text"><strong>Transactions</strong>Every entry, grouped by day, with search and sort.</span>
+          </button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="shotPanel" data-shot="analytics">
+            <span class="tab-no">3</span>
+            <span class="tab-text"><strong>Analytics</strong>Which month, weekday and line costs the most?</span>
+          </button>
+        </div>
+        <div class="device reveal" id="shotPanel" role="tabpanel">
+          <div class="device-frame" id="deviceFrame">
+            <div class="device-bar" aria-hidden="true"><span></span><span></span><span></span><b>localhost:3000/app</b></div>
+            <img id="shotImg" src="shots/overview.webp" width="1440" height="900" alt="The Overview screen: a yellow station board with the total, category lines, a daily spending chart and recent entries" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lines: categories as a metro map, drawn from real totals -->
+    <section class="lines" id="lines" aria-labelledby="linesTitle">
+      <div class="lines-copy">
+        <h2 id="linesTitle">Every category is a metro line.</h2>
+        <p>Food is the red line, Transport the blue. A category keeps its colour on every screen, so you learn to read your spending at a glance.</p>
+        <p>Click a line in the app and every chart filters to it.</p>
+        <p class="chip" id="mapMeta">Share of all spending, all time</p>
+      </div>
+      <div class="map-panel">
+        <div class="map reveal" id="metroMap"></div>
+      </div>
+    </section>
+
+    <!-- Under the hood: for anyone checking the MongoDB side -->
+    <section class="mongo" id="mongo" aria-labelledby="mongoTitle">
+      <div class="mongo-copy">
+        <h2 id="mongoTitle">Every number is a real aggregation.</h2>
+        <p>Nothing is added up in the browser. Totals, category shares and trends come straight from MongoDB pipelines over your own entries.</p>
+        <ul class="concepts">
+          <li><strong>CRUD</strong>Create, read, update and delete with Mongoose, with undo on delete.</li>
+          <li><strong><code>$group</code> and <code>$sum</code></strong>Totals per category, per day, per month and per weekday.</li>
+          <li><strong>Date queries</strong><code>$gte</code> / <code>$lt</code> ranges, <code>$dateToString</code> and <code>$dayOfWeek</code>.</li>
+          <li><strong>Sorting and filtering</strong>By date, amount or title; by line, range and text search.</li>
+          <li><strong>Validation and indexes</strong>Required fields, minimums, an enum of lines, indexes on date.</li>
+        </ul>
+      </div>
+      <figure class="pipe reveal">
+        <figcaption><span>Category totals pipeline</span><span id="pipeNote">example</span></figcaption>
+        <pre class="code" id="pipeCode">[
+  { <span class="k">"$match"</span>: { "date": { <span class="k">"$gte"</span>: from, <span class="k">"$lt"</span>: to } } },
+  { <span class="k">"$group"</span>: {
+      "_id": <span class="s">"$category"</span>,
+      "total": { <span class="k">"$sum"</span>: <span class="s">"$amount"</span> },
+      "count": { <span class="k">"$sum"</span>: 1 }
+  } },
+  { <span class="k">"$sort"</span>: { "total": -1 } }
+]</pre>
+      </figure>
+    </section>
+
+    <!-- Closing board -->
+    <section class="closing" aria-labelledby="closingTitle">
+      <div class="closing-board reveal">
+        <div class="closing-inner">
+          <p class="closing-cap">Next departure</p>
+          <h2 id="closingTitle">Press N. Type the amount. Done.</h2>
+          <div class="closing-cta">
+            <a class="btn-ink btn-lg" href="/app?add=1#/overview">Add an expense</a>
+            <p>Install it from the app's sidebar to use it like a phone app, even offline.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span class="brand-sm"><span class="mark" aria-hidden="true">₹</span>Ledger</span>
+    <span>Node, Express and MongoDB</span>
+    <a href="/app#/overview">Open the app</a>
+  </footer>
+
+  <script type="module" src="landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;font-family:'Noto Sans JP',sans-serif;font-size:12px;background:#fff;color:#111}
+header{height:40px;border-bottom:2px solid #d7261e;display:flex;align-items:center;padding:0 14px;gap:18px;font-weight:700}
+header .add{margin-left:auto;background:#d7261e;color:#fff;padding:6px 12px}
+.wrap{display:grid;grid-template-columns:180px 1fr;height:860px}
+.side{border-right:1px solid #e6e6e6;padding:8px}
+.side div{padding:6px 8px;border-bottom:1px solid #eee}
+.mos{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:1fr;gap:6px;padding:6px}
+.m{border:1px solid #e6e6e6;display:flex;flex-direction:column}
+.m h3{background:#d7261e;color:#fff;font-size:11px;padding:3px 8px;align-self:flex-start}
+.m .b{padding:8px;flex:1}
+.v{font-size:26px;font-weight:700}
+.bars{display:flex;align-items:flex-end;gap:3px;height:100%}.bars i{flex:1;background:#111}
+.l{display:flex;justify-content:space-between;border-bottom:1px dotted #ccc;padding:3px 0}
+</style></head><body>
+<header>₹ Ledger <span>Overview</span><span>Transactions</span><span>Analytics</span><span class="add">+ Add</span></header>
+<div class="wrap"><div class="side"><div>All</div><div>Food</div><div>Transport</div><div>Shopping</div><div>Bills</div><div>Entertainment</div><div>Health</div><div>Education</div><div>Other</div></div>
+<div class="mos">
+<div class="m" style="grid-column:span 2"><h3>Total · 30 days</h3><div class="b"><div class="v">₹76,185</div>58 entries</div></div>
+<div class="m"><h3>This month</h3><div class="b"><div class="v">₹75,736</div>▲53%</div></div>
+<div class="m"><h3>Average</h3><div class="b"><div class="v">₹1,314</div></div></div>
+<div class="m"><h3>Largest</h3><div class="b"><div class="v">₹8,000</div>Rent share</div></div>
+<div class="m"><h3>Today</h3><div class="b"><div class="v">₹8,716</div></div></div>
+<div class="m" style="grid-column:span 4;grid-row:span 3"><h3>Daily</h3><div class="b"><div class="bars"><i style="height:8%"></i><i style="height:82%"></i><i style="height:4%"></i><i style="height:14%"></i><i style="height:22%"></i><i style="height:30%"></i><i style="height:26%"></i><i style="height:12%"></i><i style="height:84%"></i><i style="height:18%"></i><i style="height:56%"></i></div></div></div>
+<div class="m" style="grid-column:span 2;grid-row:span 3"><h3>Categories</h3><div class="b"><div class="l"><span>Bills</span><b>₹28,355</b></div><div class="l"><span>Food</span><b>₹12,236</b></div><div class="l"><span>Entertainment</span><b>₹10,308</b></div><div class="l"><span>Shopping</span><b>₹8,368</b></div><div class="l"><span>Transport</span><b>₹7,308</b></div></div></div>
+<div class="m" style="grid-column:span 6;grid-row:span 2"><h3>Recent</h3><div class="b"><div class="l"><span>29 Oct Rent share</span><b>₹8,000</b></div><div class="l"><span>29 Oct Haircut</span><b>₹266</b></div><div class="l"><span>28 Oct Petrol</span><b>₹1,378</b></div></div></div>
+</div></div></body></html>

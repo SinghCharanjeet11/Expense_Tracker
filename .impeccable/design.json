@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T00:00:00+05:30",
+  "title": "Design System: Ledger",
+  "extensions": {
+    "colorMeta": {
+      "signal-yellow": { "role": "primary", "displayName": "Signal Yellow", "tonalRamp": ["#fff4c2", "#ffd21f", "#f6c400", "#c49b00", "#75600a"] },
+      "platform-concrete": { "role": "neutral", "displayName": "Platform Concrete", "tonalRamp": ["#f6f6f3", "#ecede9", "#dcddd7", "#a5a8a1", "#5f625c"] },
+      "ink": { "role": "neutral", "displayName": "Ink" },
+      "spend-up": { "role": "status", "displayName": "Spending up" },
+      "spend-down": { "role": "status", "displayName": "Spending down" },
+      "line-food": { "role": "data", "displayName": "Food (Red line)" },
+      "line-transport": { "role": "data", "displayName": "Transport (Blue line)" },
+      "line-shopping": { "role": "data", "displayName": "Shopping (Pink line)" },
+      "line-bills": { "role": "data", "displayName": "Bills (Orange line)" },
+      "line-entertainment": { "role": "data", "displayName": "Entertainment (Violet line)" },
+      "line-health": { "role": "data", "displayName": "Health (Green line)" },
+      "line-education": { "role": "data", "displayName": "Education (Magenta line)" },
+      "line-other": { "role": "data", "displayName": "Other (Grey line)" }
+    },
+    "typographyMeta": {
+      "board-figure": { "displayName": "Board figure", "purpose": "The station-board total only." },
+      "title": { "displayName": "Screen title", "purpose": "One h1 per screen." },
+      "figure": { "displayName": "Figure", "purpose": "Board strip values." }
+    },
+    "shadows": [
+      { "name": "toast", "value": "0 10px 30px -10px rgba(0,0,0,0.4)", "purpose": "Toasts only; panels carry no shadow." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Press feedback, toasts, board digit roll, route line growth." },
+      { "name": "ease-drawer", "value": "cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Drawer open, 280ms; close is 200ms ease-out." }
+    ],
+    "breakpoints": [
+      { "name": "compact-desktop", "value": "1180px" },
+      { "name": "phone-tablet", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action per screen: Add expense / Save.",
+      "html": "<button class=\"ds-btn-signal\">Add expense</button>",
+      "css": ".ds-btn-signal { height: 44px; padding: 0 18px; background: #f6c400; color: #121212; border: 0; border-radius: 0; font: 650 15px 'Anek Latin', sans-serif; transition: background-color 120ms ease, transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn-signal:hover { background: #ffd21f; } .ds-btn-signal:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Segmented Range",
+      "kind": "chip",
+      "refersTo": "segmented-active",
+      "description": "Date range control; active segment inverts to ink with yellow text.",
+      "html": "<div class=\"ds-seg\"><button>7D</button><button aria-pressed=\"true\">30D</button><button>90D</button></div>",
+      "css": ".ds-seg { display: inline-flex; border: 1px solid #121212; background: #fff; } .ds-seg button { height: 34px; padding: 0 13px; border: 0; border-right: 1px solid #dcddd7; background: none; font: 550 14px 'Anek Latin', sans-serif; } .ds-seg button:last-child { border-right: 0; } .ds-seg button[aria-pressed=true] { background: #121212; color: #f6c400; }"
+    },
+    {
+      "name": "Station Board",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Signature: the total on a station board.",
+      "html": "<div class=\"ds-board\"><div><p>Total spent · Last 30 days</p><p class=\"f\">₹75,735</p></div></div>",
+      "css": ".ds-board { background: #f6c400; padding: 8px; } .ds-board > div { border: 3px solid #121212; padding: 18px 26px; font-family: 'Anek Latin', sans-serif; } .ds-board p { margin: 0; font-weight: 600; } .ds-board .f { font-size: 88px; font-weight: 760; font-stretch: 122%; line-height: 1; margin: 8px 0; }"
+    },
+    {
+      "name": "Line Roundel",
+      "kind": "chip",
+      "description": "Metro-station bullet identifying a category.",
+      "html": "<span class=\"ds-line\"><span class=\"b\"></span>Transport</span>",
+      "css": ".ds-line { display: inline-flex; align-items: center; gap: 8px; font: 400 14.5px 'Anek Latin', sans-serif; } .ds-line .b { width: 12px; height: 12px; border-radius: 50%; border: 3px solid #1d5fbf; background: #fff; box-sizing: border-box; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square field; ink border and inner ring on focus.",
+      "html": "<input class=\"ds-input\" placeholder=\"Groceries, metro card, movie…\" />",
+      "css": ".ds-input { height: 44px; padding: 0 12px; border: 1px solid #dcddd7; border-radius: 0; font: 400 15px 'Anek Latin', sans-serif; outline: 0; } .ds-input:focus { border-color: #121212; box-shadow: inset 0 0 0 1px #121212; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Platform Board",
+    "overview": "Ledger reads like a railway platform: the total is a yellow station board with its caption, categories are metro lines, entries read like a timetable. The world lends type, palette, density and one signature move; every control stays a standard web control.",
+    "keyCharacteristics": ["Square corners, 1px rules, flat colour", "Yellow only on board, active state, primary action", "Delhi Metro line colours for categories", "Anek variable type, width axis as display voice", "Each screen fits the viewport"],
+    "rules": [
+      { "name": "Spending Up Is Red", "body": "A rise in spending is red, a fall green; colour says good or bad.", "section": "colors" },
+      { "name": "Yellow Is Scarce", "body": "Signal yellow appears only on the board, the active state, and the primary action.", "section": "colors" },
+      { "name": "Width Is the Display Voice", "body": "Emphasis comes from Anek's width axis and weight, not a second face.", "section": "typography" }
+    ],
+    "dos": ["Do give every category a line colour and roundel", "Do name the baseline of every change", "Do keep screens within the viewport"],
+    "donts": ["Don't add KPI tiles, donuts, gradients or rounded cards", "Don't use yellow for data", "Don't add entrance animations"]
+  }
+}

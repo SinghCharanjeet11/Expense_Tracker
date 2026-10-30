@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ledger — Expense Tracker</title>
+  <meta name="description" content="Track daily expenses and see where your money goes." />
+  <meta name="theme-color" content="#121212" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preload" href="fonts/anek-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="rail">
+      <a class="brand" href="/" aria-label="Ledger home page">
+        <span class="mark" aria-hidden="true">₹</span>
+        <span class="brand-name">Ledger</span>
+      </a>
+
+      <nav class="nav" aria-label="Screens">
+        <a class="nav-item" href="#/overview" data-view="overview">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Overview
+        </a>
+        <a class="nav-item" href="#/transactions" data-view="transactions">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          Transactions
+        </a>
+        <a class="nav-item" href="#/analytics" data-view="analytics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 16v-4M12 16V8M17 16v-7"/></svg>
+          Analytics
+        </a>
+      </nav>
+
+      <section class="lines-nav" aria-labelledby="linesHeading">
+        <h2 id="linesHeading">Lines</h2>
+        <ul id="lineFilter"></ul>
+      </section>
+
+      <div class="rail-foot">
+        <p class="net-status" id="netStatus" hidden>Offline · showing saved data</p>
+        <button class="btn-rail" id="installBtn" type="button" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Install app
+        </button>
+        <a class="rail-link" href="/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          About Ledger
+        </a>
+      </div>
+    </aside>
+
+    <main class="canvas" id="canvas">
+      <header class="title-row">
+        <div class="title-top">
+          <h1 id="viewTitle">Overview</h1>
+          <button class="btn-signal btn-add" id="addBtn" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add expense <kbd>N</kbd>
+          </button>
+        </div>
+        <div class="title-sub">
+          <p class="finding" id="finding">&nbsp;</p>
+          <div class="range" role="group" aria-label="Date range">
+            <div class="segmented" id="rangeTabs">
+              <button type="button" data-range="7d">7D</button>
+              <button type="button" data-range="30d">30D</button>
+              <button type="button" data-range="90d">90D</button>
+              <button type="button" data-range="month">Month</button>
+              <button type="button" data-range="year">Year</button>
+              <button type="button" data-range="all">All</button>
+            </div>
+            <select id="rangeSelect" aria-label="Date range">
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+              <option value="90d">Last 90 days</option>
+              <option value="month">This month</option>
+              <option value="year">This year</option>
+              <option value="all">All time</option>
+              <option value="custom" hidden>Custom range</option>
+            </select>
+            <div class="dates">
+              <input type="date" id="fromDate" aria-label="From date" />
+              <span aria-hidden="true">–</span>
+              <input type="date" id="toDate" aria-label="To date" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Overview -->
+      <section class="view view-overview" id="view-overview" aria-labelledby="viewTitle">
+        <article class="board" aria-label="Total spent">
+          <div class="board-inner">
+            <!-- A ₹ coin floating over the board: stacked discs give it a real edge in 3D -->
+            <div class="coin3d" aria-hidden="true">
+              <span class="coin-shadow"></span>
+              <div class="coin-bob"><div class="coin-hop" id="boardCoin"><div class="coin-spin">
+                <i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i>
+                <i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i>
+                <b class="coin-face front">₹</b><b class="coin-face back">₹</b>
+              </div></div></div>
+            </div>
+            <p class="board-en" id="boardEn">Total spent</p>
+            <p class="board-figure" id="boardTotal">₹—</p>
+            <dl class="board-strip">
+              <div>
+                <dt>This month</dt>
+                <dd class="v" id="bMonth">—</dd>
+                <dd class="s" id="bMonthDelta">&nbsp;</dd>
+              </div>
+              <div>
+                <dt>Entries</dt>
+                <dd class="v" id="bCount">—</dd>
+                <dd class="s" id="bAvg">&nbsp;</dd>
+              </div>
+              <div>
+                <dt>Largest</dt>
+                <dd class="v" id="bLargest">—</dd>
+                <dd class="s" id="bLargestTitle">&nbsp;</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="panel lines-panel">
+          <header class="panel-head">
+            <h2>Category lines</h2>
+            <span class="meta" id="linesMeta"></span>
+          </header>
+          <ol class="route" id="route"></ol>
+        </article>
+
+        <article class="panel chart-panel">
+          <header class="panel-head">
+            <h2 id="trendTitle">Daily spending</h2>
+            <span class="meta" id="trendMeta"></span>
+          </header>
+          <div class="chart" id="trendChart"></div>
+        </article>
+
+        <article class="panel recent-panel">
+          <header class="panel-head">
+            <h2>Recent entries</h2>
+            <a class="text-link" href="#/transactions">View all</a>
+          </header>
+          <table class="tt">
+            <thead><tr><th>Date</th><th>Entry</th><th>Line</th><th class="num">Amount</th></tr></thead>
+            <tbody id="recentBody"></tbody>
+          </table>
+        </article>
+      </section>
+
+      <!-- Transactions -->
+      <section class="view view-transactions" id="view-transactions" aria-labelledby="viewTitle" hidden>
+        <div class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <span class="sr-only">Search entries</span>
+            <input type="search" id="searchInput" placeholder="Search entries and notes" autocomplete="off" />
+          </label>
+          <label class="sort-field">
+            <span class="sr-only">Sort entries</span>
+            <select id="sortSelect">
+              <option value="date:desc">Newest first</option>
+              <option value="date:asc">Oldest first</option>
+              <option value="amount:desc">Highest amount</option>
+              <option value="amount:asc">Lowest amount</option>
+              <option value="title:asc">Title A–Z</option>
+            </select>
+          </label>
+          <p class="meta" id="txMeta"></p>
+        </div>
+        <div class="panel table-panel">
+          <div class="table-scroll" id="txScroll">
+            <table class="tt tt-full">
+              <thead>
+                <tr>
+                  <th class="date">Date</th>
+                  <th>Entry</th>
+                  <th>Line</th>
+                  <th class="num">Amount</th>
+                  <th class="act"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="txBody"></tbody>
+            </table>
+            <div class="tx-more" id="txMore"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Analytics -->
+      <section class="view view-analytics" id="view-analytics" aria-labelledby="viewTitle" hidden>
+        <article class="panel month-panel">
+          <header class="panel-head">
+            <h2>Spending by month</h2>
+            <span class="meta">All time</span>
+          </header>
+          <div class="chart" id="monthChart"></div>
+        </article>
+
+        <article class="panel weekday-panel">
+          <header class="panel-head">
+            <h2>By weekday</h2>
+            <span class="meta" id="weekdayMeta"></span>
+          </header>
+          <ol class="barlist" id="weekdayList"></ol>
+        </article>
+
+        <article class="panel cat-panel">
+          <header class="panel-head">
+            <h2>Category totals</h2>
+            <span class="meta" id="catMeta"></span>
+          </header>
+          <table class="tt">
+            <thead><tr><th>Line</th><th class="num">Entries</th><th class="num">Average</th><th class="num">Total</th><th class="share">Share</th></tr></thead>
+            <tbody id="catBody"></tbody>
+          </table>
+        </article>
+
+        <article class="panel pipe-panel">
+          <header class="panel-head">
+            <h2>Aggregation pipeline</h2>
+            <span class="meta">Ran for the table</span>
+          </header>
+          <pre class="code" id="pipelineCode"></pre>
+        </article>
+      </section>
+    </main>
+
+    <nav class="tabbar" aria-label="Screens">
+      <a href="#/overview" data-view="overview">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
+      </a>
+      <a href="#/transactions" data-view="transactions">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        Entries
+      </a>
+      <a href="#/analytics" data-view="analytics">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 16v-4M12 16V8M17 16v-7"/></svg>
+        Analytics
+      </a>
+      <button type="button" class="tab-add" id="tabAdd" aria-label="Add expense">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Add / edit drawer -->
+  <dialog class="drawer" id="drawer" aria-labelledby="drawerTitle">
+    <form id="expenseForm" novalidate>
+      <header class="drawer-head">
+        <h2 id="drawerTitle">New expense</h2>
+        <button type="button" class="icon-btn" id="drawerClose" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+
+      <div class="drawer-body">
+        <label class="amount-field">
+          <span class="sr-only">Amount in rupees</span>
+          <span class="cur" aria-hidden="true">₹</span>
+          <input type="number" id="fAmount" min="0.01" step="0.01" inputmode="decimal" placeholder="0" required />
+        </label>
+
+        <div class="field">
+          <label for="fTitle">What was it for?</label>
+          <input type="text" id="fTitle" maxlength="80" placeholder="Groceries, metro card, movie…" required />
+        </div>
+
+        <fieldset class="field">
+          <legend>Line</legend>
+          <div class="line-pick" id="linePick"></div>
+        </fieldset>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fDate">Date</label>
+            <input type="date" id="fDate" required />
+          </div>
+          <div class="field">
+            <label for="fNote">Note <span class="opt">optional</span></label>
+            <input type="text" id="fNote" maxlength="200" />
+          </div>
+        </div>
+
+        <p class="form-error" id="formError" role="alert"></p>
+      </div>
+
+      <footer class="drawer-foot">
+        <button type="button" class="btn-ghost" id="drawerCancel">Cancel</button>
+        <button type="submit" class="btn-signal" id="saveBtn">Save expense</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div class="tip" id="tip" role="status" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

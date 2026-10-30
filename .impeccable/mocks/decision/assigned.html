@@ -1,0 +1,78 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;font-family:Archivo,sans-serif;background:#eceeea;color:#111;display:grid;grid-template-columns:232px 1fr}
+.rail{background:#111;color:#eceeea;padding:24px 0;display:flex;flex-direction:column}
+.logo{padding:0 24px 28px;font-weight:800;font-stretch:115%;font-size:22px;letter-spacing:.02em}
+.logo span{background:#f6c400;color:#111;padding:2px 7px;margin-right:8px}
+.nav a{display:block;padding:12px 24px;font-size:15px;color:#a9aca6;border-left:4px solid transparent}
+.nav a.on{color:#fff;border-left-color:#f6c400;background:#1c1c1c}
+.add{margin:auto 20px 0;background:#f6c400;color:#111;font-weight:700;padding:14px;text-align:center;font-size:15px}
+main{padding:24px 32px;display:grid;grid-template-rows:auto auto 1fr;gap:20px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top h1{font-size:28px;font-weight:800;font-stretch:110%}
+.seg{display:flex;border:1px solid #111}
+.seg b{padding:8px 14px;font-size:13px;font-weight:600;border-right:1px solid #111}
+.seg b:last-child{border:0}.seg b.on{background:#111;color:#f6c400}
+.row{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:20px}
+.board{background:#f6c400;padding:6px}
+.board .in{border:3px solid #111;padding:16px 22px;height:100%}
+.hi{font-family:'Noto Sans Devanagari';font-size:18px}
+.big{font-size:76px;font-weight:800;font-stretch:112%;line-height:1;margin:6px 0;font-variant-numeric:tabular-nums}
+.en{font-size:13px;font-weight:700;letter-spacing:.14em}
+.kpi{background:#fff;border:1px solid #c9ccc5;padding:18px 22px}
+.kpi small{font-size:12px;letter-spacing:.12em;font-weight:700;color:#555}
+.kpi .v{font-size:44px;font-weight:800;font-stretch:108%;margin-top:14px;font-variant-numeric:tabular-nums}
+.kpi .d{margin-top:10px;font-size:13px}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;min-height:0}
+.panel{background:#fff;border:1px solid #c9ccc5;padding:18px 22px;display:flex;flex-direction:column}
+.panel h2{font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #111;padding-bottom:10px;margin-bottom:14px}
+.bars{flex:1;display:flex;align-items:flex-end;gap:6px;border-bottom:1px solid #111}
+.bars i{flex:1;background:#111}
+.bars i.y{background:#f6c400;outline:1px solid #111}
+.route{display:grid;gap:13px}
+.line{display:grid;grid-template-columns:110px 1fr 80px;align-items:center;gap:10px;font-size:14px}
+.line .t{height:6px;position:relative}
+.line .t::after{content:'';position:absolute;right:-6px;top:-4px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid currentColor}
+.line .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.tt{display:grid;grid-template-columns:90px 1fr 140px 110px;font-size:14px;border-top:1px solid #111}
+.tt div{padding:9px 0;border-bottom:1px solid #d8dad5}
+.tt .h{font-size:11px;font-weight:700;letter-spacing:.12em;color:#555}
+.bul{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.r{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+</style></head><body>
+<aside class="rail">
+ <div class="logo"><span>₹</span>LEDGER</div>
+ <nav class="nav"><a class="on">Overview</a><a>Transactions</a><a>Analytics</a><a>Categories</a></nav>
+ <div class="add">+ Add expense &nbsp;N</div>
+</aside>
+<main>
+ <div class="top"><h1>Overview</h1>
+  <div class="seg"><b>7D</b><b class="on">30D</b><b>90D</b><b>This month</b><b>This year</b><b>All</b></div></div>
+ <div class="row">
+  <div class="board"><div class="in"><div class="hi">कुल ख़र्च · पिछले 30 दिन</div><div class="big">₹76,185</div><div class="en">TOTAL SPENT · LAST 30 DAYS · 58 ENTRIES</div></div></div>
+  <div class="kpi"><small>THIS MONTH</small><div class="v">₹75,736</div><div class="d">▲ 53% vs September (₹49,487)</div></div>
+  <div class="kpi"><small>LARGEST</small><div class="v">₹8,000</div><div class="d"><span class="bul" style="background:#f08a24"></span>Rent share · 1 Oct</div></div>
+ </div>
+ <div class="grid">
+  <div class="panel"><h2>Daily spending</h2>
+   <div class="bars"><i style="height:8%"></i><i style="height:82%"></i><i style="height:2%"></i><i style="height:4%"></i><i style="height:14%"></i><i style="height:22%"></i><i style="height:6%"></i><i style="height:30%"></i><i style="height:26%"></i><i style="height:12%"></i><i style="height:16%"></i><i style="height:9%"></i><i style="height:12%"></i><i style="height:20%"></i><i style="height:28%"></i><i style="height:18%"></i><i style="height:6%"></i><i style="height:14%"></i><i style="height:15%"></i><i style="height:84%"></i><i style="height:18%"></i><i style="height:27%"></i><i style="height:14%"></i><i class="y" style="height:56%"></i></div>
+   <div class="tt" style="margin-top:16px"><div class="h">DATE</div><div class="h">ENTRY</div><div class="h">LINE</div><div class="h r">AMOUNT</div>
+    <div>29 Oct</div><div>Rent share</div><div><span class="bul" style="background:#f08a24"></span>Bills</div><div class="r">₹8,000</div>
+    <div>29 Oct</div><div>Haircut</div><div><span class="bul" style="background:#8a8d87"></span>Other</div><div class="r">₹266</div>
+    <div>28 Oct</div><div>Petrol</div><div><span class="bul" style="background:#1d5fbf"></span>Transport</div><div class="r">₹1,378</div></div>
+  </div>
+  <div class="panel"><h2>Category lines</h2>
+   <div class="route">
+    <div class="line" style="color:#f08a24"><span style="color:#111">Bills</span><div class="t" style="background:#f08a24;width:100%"></div><span class="a" style="color:#111">₹28,355</span></div>
+    <div class="line" style="color:#e2231a"><span style="color:#111">Food</span><div class="t" style="background:#e2231a;width:44%"></div><span class="a" style="color:#111">₹12,236</span></div>
+    <div class="line" style="color:#7b3fa0"><span style="color:#111">Entertainment</span><div class="t" style="background:#7b3fa0;width:36%"></div><span class="a" style="color:#111">₹10,308</span></div>
+    <div class="line" style="color:#e85fa0"><span style="color:#111">Shopping</span><div class="t" style="background:#e85fa0;width:30%"></div><span class="a" style="color:#111">₹8,368</span></div>
+    <div class="line" style="color:#1d5fbf"><span style="color:#111">Transport</span><div class="t" style="background:#1d5fbf;width:26%"></div><span class="a" style="color:#111">₹7,308</span></div>
+    <div class="line" style="color:#b0177f"><span style="color:#111">Education</span><div class="t" style="background:#b0177f;width:13%"></div><span class="a" style="color:#111">₹3,654</span></div>
+    <div class="line" style="color:#2e9b4a"><span style="color:#111">Health</span><div class="t" style="background:#2e9b4a;width:10%"></div><span class="a" style="color:#111">₹2,963</span></div>
+   </div></div>
+ </div>
+</main></body></html>
